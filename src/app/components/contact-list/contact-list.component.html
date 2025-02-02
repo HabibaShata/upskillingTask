@@ -1,0 +1,31 @@
+<div class="Table">
+  @for (user of users(); track user.id) {
+  <div class="row">
+    <div class="right-info">
+      <div class="right-info-img">
+        <img
+          *ngIf="user?.picture"
+          [src]="'assets/images/' + user.picture"
+          alt="User Image"
+          class="w-full"
+        />
+      </div>
+      <div class="right-info-details flex flex-column gap-2">
+        <span>{{ user.firstName + " " + user.lastName }}</span>
+        <span>01020228030</span>
+      </div>
+    </div>
+    <div class="left-info">
+      <p-toast />
+      <span class="edit" (click)="editUser(user.id)">
+        <i class="pi pi-pen-to-square"></i
+      ></span>
+      <span class="delete" (click)="deleteUser(user.id)">
+        <i class="pi pi-trash"></i
+      ></span>
+    </div>
+  </div>
+  } @empty {
+  <h3 class="bg-yellow-300 text-color">There are no Users.</h3>
+  }
+</div>

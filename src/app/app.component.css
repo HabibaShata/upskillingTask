@@ -1,0 +1,10 @@
+.container {
+  border: 1px solid #fff;
+  border-radius: 25px;
+  margin: 200px 100px;
+  padding: 20px 10px;
+  text-align: center;
+}
+.container .add-btn {
+  margin-left: auto;
+}
