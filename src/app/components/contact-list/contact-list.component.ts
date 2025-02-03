@@ -2,16 +2,14 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
-  effect,
   inject,
+  Input,
   OnInit,
   signal,
-  WritableSignal,
+  SimpleChanges,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { PaginatorModule } from 'primeng/paginator';
 import { IUser } from '../../models/Iuser';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
@@ -21,45 +19,22 @@ import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-contact-list',
   standalone: true,
-  imports: [
-    TableModule,
-    ButtonModule,
-    CommonModule,
-    InputTextModule,
-    PaginatorModule,
-    ToastModule,
-  ],
+  imports: [ButtonModule, CommonModule, InputTextModule, ToastModule],
   templateUrl: './contact-list.component.html',
   styleUrl: './contact-list.component.css',
   providers: [MessageService],
 })
-export class ContactListComponent implements OnInit {
+export class ContactListComponent {
   private _Router = inject(Router);
-  private allUsers = signal<IUser[]>([]);
-  users = computed(() => this.allUsers());
+  private _UserService = inject(UserService);
+  private messageService = inject(MessageService);
+  @Input({ required: true }) contacts: IUser[] = [];
+  contactsSignal = signal<IUser[]>([]);
 
-  statuses!: any[];
-
-  loading: boolean = false;
-  searchValue: string | undefined;
-
-  constructor(
-    private _UserService: UserService,
-    private messageService: MessageService
-  ) {}
-  ngOnInit() {
-    this.loadUsers();
-  }
-
-  loadUsers() {
-    this._UserService.getUsers().subscribe((users) => {
-      this.allUsers.set(users.data);
-    });
-  }
-
-  clear(table: TableModule) {
-    // table.();
-    this.searchValue = '';
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['contacts'] && changes['contacts'].currentValue) {
+      this.contactsSignal.set(this.contacts);
+    }
   }
 
   deleteUser(id: string) {
@@ -70,7 +45,9 @@ export class ContactListComponent implements OnInit {
           summary: 'Success',
           detail: 'User deleted successfully',
         });
-        this.loadUsers();
+        this.contactsSignal.set(
+          this.contactsSignal().filter((user) => user.id !== id)
+        );
       },
       error: (err) => {
         this.messageService.add({

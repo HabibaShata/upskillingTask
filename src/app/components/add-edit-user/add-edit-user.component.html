@@ -1,6 +1,5 @@
 <div class="add-edit-user text-center flex flex-column gap-3 p-4">
-  <pre>{{ userForm.value | json }}</pre>
-  <h3>{{ currentUser?.picture }}</h3>
+  <!-- <pre>{{ userForm.value | json }}</pre> -->
   <form [formGroup]="userForm" (ngSubmit)="onSubmitForm()">
     <!-- User Image -->
     <div
@@ -33,12 +32,13 @@
     <div class="add-edit-user_inputs flex flex-column gap-3 py-6 my-6">
       <div class="flex flex-column lg:flex-row justify-content-between gap-3">
         <!-- First Name -->
-        <div>
+        <div class="w-full">
           <input
             type="text"
             formControlName="firstName"
             pInputText
             placeholder="First Name"
+            class="w-full"
           />
           <p
             class="text-red-500"
@@ -49,12 +49,13 @@
         </div>
 
         <!-- Last Name -->
-        <div>
+        <div class="w-full">
           <input
             type="text"
             formControlName="lastName"
             pInputText
             placeholder="Last Name"
+            class="w-full"
           />
           <p
             class="text-red-500"
@@ -64,16 +65,16 @@
           </p>
         </div>
       </div>
-
-      <!-- Email -->
       <div class="flex flex-column lg:flex-row justify-content-between gap-3">
-        <div>
+        <!-- email  -->
+        <div class="w-full">
           <input
             type="email"
             formControlName="email"
             pInputText
             placeholder="Email"
-            readonly="isUserEdit"
+            [readonly]="isUserEdit"
+            class="w-full"
           />
           <p class="text-red-500" *ngIf="isUserEdit">*Email is disabled</p>
           <p
@@ -89,6 +90,10 @@
             *Please enter a valid email.
           </p>
         </div>
+        <!-- phone  -->
+        <div class="w-full">
+          <input type="text" pInputText placeholder="phone" class="w-full" />
+        </div>
       </div>
     </div>
 
@@ -103,7 +108,7 @@
         label="Cancel"
         [rounded]="true"
         severity="secondary"
-        (click)="onCancel()"
+        (click)="resetAndReload()"
       />
 
       <!-- Submit Button -->

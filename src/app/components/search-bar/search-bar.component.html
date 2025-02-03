@@ -1,3 +1,9 @@
 <p-iconField styleClass="prime-input-override">
-  <input type="text" pInputText placeholder="Saerch by Name" />
+  <input
+    type="text"
+    pInputText
+    placeholder="Saerch by Name"
+    [(ngModel)]="searchTerm"
+    (input)="onSearchChange()"
+  />
 </p-iconField>

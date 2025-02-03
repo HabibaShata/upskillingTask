@@ -12,44 +12,23 @@ export class UserService {
   constructor(private _HttpClient: HttpClient) {}
 
   getUserById(id: string): Observable<IUser> {
-    return this._HttpClient.get<IUser>(`${this.baseUrl}user/${id}`, {
-      headers: new HttpHeaders({
-        'app-id': '64fc4a747b1786417e354f31',
-      }),
-    });
+    return this._HttpClient.get<IUser>(`${this.baseUrl}user/${id}`);
   }
 
   getUsers(): Observable<any> {
-    return this._HttpClient.get<any>(`${this.baseUrl}user`, {
-      headers: new HttpHeaders({
-        'app-id': '64fc4a747b1786417e354f31',
-      }),
-    });
+    return this._HttpClient.get<any>(`${this.baseUrl}user`);
   }
   addUser(addedUser: any): Observable<IUser> {
     return this._HttpClient.post<IUser>(
       `${this.baseUrl}user/create`,
-      addedUser,
-      {
-        headers: new HttpHeaders({
-          'app-id': '64fc4a747b1786417e354f31',
-        }),
-      }
+      addedUser
     );
   }
 
   updateUser(updatedUser: any, id: string): Observable<IUser> {
-    return this._HttpClient.put<any>(`${this.baseUrl}user/${id}`, updatedUser, {
-      headers: new HttpHeaders({
-        'app-id': '64fc4a747b1786417e354f31',
-      }),
-    });
+    return this._HttpClient.put<any>(`${this.baseUrl}user/${id}`, updatedUser);
   }
   deleteUser(id: string): Observable<string> {
-    return this._HttpClient.delete<string>(`${this.baseUrl}user/${id}`, {
-      headers: new HttpHeaders({
-        'app-id': '64fc4a747b1786417e354f31',
-      }),
-    });
+    return this._HttpClient.delete<string>(`${this.baseUrl}user/${id}`);
   }
 }

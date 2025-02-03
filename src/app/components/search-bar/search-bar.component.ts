@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconFieldModule } from 'primeng/iconfield';
 import {
@@ -16,12 +23,12 @@ import {
   styleUrl: './search-bar.component.css',
   encapsulation: ViewEncapsulation.None,
 })
-export class SearchBarComponent implements OnInit {
-  formGroup!: FormGroup;
+export class SearchBarComponent {
+  searchTerm: string = '';
+  @Output() searchTermChange = new EventEmitter<string>();
 
-  ngOnInit() {
-    this.formGroup = new FormGroup({
-      text: new FormControl<string | null>(null),
-    });
+  onSearchChange() {
+    this.searchTermChange.emit(this.searchTerm);
+    console.log(this.searchTerm);
   }
 }

@@ -1,7 +1,7 @@
 <div class="searech-bar">
-  <app-search-bar />
+  <app-search-bar (searchTermChange)="onSearchTermChanged($event)" />
 </div>
 <div class="add-btn w-3 ml-auto m-2">
   <app-add-new-contact-button />
 </div>
-<app-contact-list></app-contact-list>
+<app-contact-list [contacts]="filteredContacts()"></app-contact-list>

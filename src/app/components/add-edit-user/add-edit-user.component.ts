@@ -51,7 +51,6 @@ export class AddEditUserComponent implements OnInit {
 
     this._ActivatedRoute.paramMap.subscribe((params) => {
       const paramId = params.get('id');
-      console.log('paramId:', params.get('id'));
 
       if (paramId) {
         this.id = paramId;
@@ -77,8 +76,6 @@ export class AddEditUserComponent implements OnInit {
     this._UserService.getUserById(id).subscribe({
       next: (data) => {
         this.currentUser = data;
-        console.log('data before updating', data);
-
         this.userForm.patchValue({
           firstName: data.firstName,
           lastName: data.lastName,
@@ -115,11 +112,8 @@ export class AddEditUserComponent implements OnInit {
       } else {
         this.addNewUser();
       }
-      this.userForm.reset();
 
-      setTimeout(() => {
-        this._Router.navigate(['home']);
-      }, 1500);
+      this.resetAndReload();
     }
   }
   updateUser() {
@@ -142,6 +136,8 @@ export class AddEditUserComponent implements OnInit {
     });
   }
   addNewUser() {
+    this.currentUser = this.userForm.value;
+
     this._UserService.addUser(this.currentUser).subscribe({
       next: (data) => {
         this.messageService.add({
@@ -149,7 +145,6 @@ export class AddEditUserComponent implements OnInit {
           summary: 'Success',
           detail: 'User added successfully',
         });
-        this._Router.navigate(['home']);
       },
       error: (err: HttpErrorResponse) => {
         this.messageService.add({
@@ -160,7 +155,11 @@ export class AddEditUserComponent implements OnInit {
       },
     });
   }
-  onCancel() {
-    this._Router.navigateByUrl('home');
+
+  resetAndReload() {
+    this.userForm.reset();
+    setTimeout(() => {
+      this._Router.navigate(['home']);
+    }, 1500);
   }
 }
